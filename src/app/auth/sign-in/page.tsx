@@ -152,6 +152,7 @@ function SignInPage() {
                         </>
                     )}
                 </Button>
+                <p className="text-muted-foreground text-md text-center mt-4">Don't have an account ? <Link className="font-semibold text-primary" href="/auth/sign-up">Sign up</Link></p>
 
                 {emailSignInMutation.isError && (
                     <p className="text-red-500 text-sm text-center">Error: {emailSignInMutation.error.message}</p>
