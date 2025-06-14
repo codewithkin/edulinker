@@ -6,6 +6,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 const signInWithEmailAndPasswordDummy = async (email: string, password: string) => {
     return new Promise((resolve) => {
@@ -64,8 +65,8 @@ function SignInPage() {
         <section className="h-full flex items-center justify-center">
             <article className="flex flex-col">
                 <article className="flex flex-col gap-2 w-full my-4">
-                    <h2 className="text-3xl font-bold text-center text-gray-800">Welcome back!</h2>
-                    <p className="text-center text-muted-foreground text-md md:max-w-md">
+                    <h2 className="text-3xl font-bold text-gray-800">Welcome back!</h2>
+                    <p className="text-muted-foreground text-md md:max-w-md">
                         It's great to see you again! Let's get you signed in and back to what you love.
                     </p>
                 </article>
@@ -109,20 +110,29 @@ function SignInPage() {
                         </Button>
                     </div>
 
+                    <Link
+                        href="/auth/forgot-password"
+                        className="text-primary font-semibold text-sm self-end"
+                    >
+                        Forgot Password?
+                    </Link>
+
                     <Button
+                        size="lg"
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
                         disabled={emailSignInMutation.isPending}
                     >
                         {emailSignInMutation.isPending ? "Signing In..." : "Sign In"}
                     </Button>
                 </form>
 
-                <p className="text-center text-sm text-gray-500">Or</p>
+                <p className="text-center text-sm text-gray-500 my-4">Or</p>
 
                 <Button
+                    size="lg"
+                    className="bg-gray-300 text-gray-600"
                     onClick={handleGoogleSignIn}
-                    className="w-full bg-red-600 text-white py-2 rounded-md flex items-center justify-center gap-2 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-50"
+                    variant="secondary"
                     disabled={googleSignInMutation.isPending}
                 >
                     {googleSignInMutation.isPending ? (
