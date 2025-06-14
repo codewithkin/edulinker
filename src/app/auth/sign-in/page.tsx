@@ -62,10 +62,10 @@ function SignInPage() {
     }
 
     return (
-        <section className="h-full flex items-center justify-center">
-            <article className="flex flex-col">
+        <section className="h-full flex flex-col w-full items-center justify-center">
+            <article className="flex flex-col justify-center md:max-w-sm">
                 <article className="flex flex-col gap-2 w-full my-4">
-                    <h2 className="text-3xl font-bold text-gray-800">Welcome back!</h2>
+                    <h2 className="text-3xl font-bold text-gray-800">Welcome back 👋</h2>
                     <p className="text-muted-foreground text-md md:max-w-md">
                         It's great to see you again! Let's get you signed in and back to what you love.
                     </p>

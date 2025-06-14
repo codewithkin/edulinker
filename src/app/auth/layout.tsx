@@ -3,7 +3,7 @@ import { ReactNode } from "react"
 
 function AuthLayout({ children }: { children: ReactNode }) {
     return (
-        <main className="flex md:flex-row flex-col-reverse gap-4 md:justify-between min-h-screen p-4 md:p-8">
+        <main className="flex md:flex-row flex-col-reverse gap-4 md:justify-between items-center min-h-screen p-4 md:p-8">
             {children}
 
             {/* Image asset */}
