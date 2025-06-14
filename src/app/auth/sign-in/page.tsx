@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
+import { toast } from "sonner"
 
 
 
@@ -37,11 +38,15 @@ function SignInPage() {
     })
 
     const signInWithEmailAndPasswordDummy = async (email: string, password: string) => {
-        const data = await authClient.signIn.email({
+        const { data, error } = await authClient.signIn.email({
             email,
             password,
             callbackURL: "/dashboard"
         })
+
+        if (error) {
+            return toast.error(error.message);
+        }
 
         return data;
     }
