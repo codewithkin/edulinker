@@ -7,15 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { authClient } from "@/lib/auth-client"
 
-const signInWithEmailAndPasswordDummy = async (email: string, password: string) => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Signing in with email and password:", { email, password })
-            resolve({ success: true, message: "Signed in successfully with email/password!" })
-        }, 1000)
-    })
-}
+
 
 const signInWithGoogleDummy = async () => {
     return new Promise((resolve) => {
@@ -32,7 +26,7 @@ function SignInPage() {
     const [showPassword, setShowPassword] = useState(false)
 
     const emailSignInMutation = useMutation({
-        mutationFn: ({ email, password }: { email: string; password: string }) =>
+        mutationFn: () =>
             signInWithEmailAndPasswordDummy(email, password),
         onSuccess: (data) => {
             console.log("Email sign-in success:", data)
@@ -41,6 +35,16 @@ function SignInPage() {
             console.error("Email sign-in error:", error)
         },
     })
+
+    const signInWithEmailAndPasswordDummy = async (email: string, password: string) => {
+        const data = await authClient.signIn.email({
+            email,
+            password,
+            callbackURL: "/dashboard"
+        })
+
+        return data;
+    }
 
     const googleSignInMutation = useMutation({
         mutationFn: signInWithGoogleDummy,
@@ -54,7 +58,7 @@ function SignInPage() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        emailSignInMutation.mutate({ email, password })
+        emailSignInMutation.mutate()
     }
 
     const handleGoogleSignIn = () => {
@@ -63,7 +67,7 @@ function SignInPage() {
 
     return (
         <section className="h-full flex flex-col w-full items-center justify-center">
-            <article className="flex flex-col justify-center md:max-w-sm">
+            <article className="flex flex-col justify-center md:max-w-sm lg:max-w-auto">
                 <article className="flex flex-col gap-2 w-full my-4">
                     <h2 className="text-3xl font-bold text-gray-800">Welcome back 👋</h2>
                     <p className="text-muted-foreground text-md md:max-w-md">
@@ -104,7 +108,7 @@ function SignInPage() {
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
                             className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                            aria-Label={showPassword ? "Hide password" : "Show password"}
+                            aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                             {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
                         </Button>
@@ -130,7 +134,7 @@ function SignInPage() {
 
                 <Button
                     size="lg"
-                    className="bg-gray-300 text-gray-600"
+                    className="bg-gray-300 text-gray-600 hover:bg-gray-500"
                     onClick={handleGoogleSignIn}
                     variant="secondary"
                     disabled={googleSignInMutation.isPending}
