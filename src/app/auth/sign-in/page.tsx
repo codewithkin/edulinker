@@ -12,13 +12,18 @@ import { toast } from "sonner"
 
 
 
-const signInWithGoogleDummy = async () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Signing in with Google")
-            resolve({ success: true, message: "Signed in successfully with Google!" })
-        }, 1000)
-    })
+const signInWithGoogle = async () => {
+    const { data, error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+        newUserCallbackURL: "/onboarding"
+    });
+
+    if (error) {
+        toast.error(error.message);
+    }
+
+    return data;
 }
 
 function SignInPage() {
@@ -28,7 +33,7 @@ function SignInPage() {
 
     const emailSignInMutation = useMutation({
         mutationFn: () =>
-            signInWithEmailAndPasswordDummy(email, password),
+            signInWithPasswordAndEmail(email, password),
         onSuccess: (data) => {
             console.log("Email sign-in success:", data)
         },
@@ -37,7 +42,7 @@ function SignInPage() {
         },
     })
 
-    const signInWithEmailAndPasswordDummy = async (email: string, password: string) => {
+    const signInWithPasswordAndEmail = async (email: string, password: string) => {
         const { data, error } = await authClient.signIn.email({
             email,
             password,
@@ -52,7 +57,7 @@ function SignInPage() {
     }
 
     const googleSignInMutation = useMutation({
-        mutationFn: signInWithGoogleDummy,
+        mutationFn: signInWithGoogle,
         onSuccess: (data) => {
             console.log("Google sign-in success:", data)
         },

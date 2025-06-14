@@ -11,13 +11,18 @@ import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
-const signUpWithGoogleDummy = async () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            console.log("Signing up with Google")
-            resolve({ success: true, message: "Signed up successfully with Google!" })
-        }, 1000)
-    })
+const signUpWithGoogle = async () => {
+    const { data, error } = await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/dashboard",
+        newUserCallbackURL: "/onboarding"
+    });
+
+    if (error) {
+        toast.error(error.message);
+    }
+
+    return data;
 }
 
 function SignUpPage() {
@@ -34,7 +39,7 @@ function SignUpPage() {
                 email,
                 password,
                 name,
-                callbackURL: "/dashboard",
+                callbackURL: "/onboarding",
                 fetchOptions: {
                     onSuccess: () => {
                         router.push("/auth/signin");
@@ -59,7 +64,7 @@ function SignUpPage() {
     })
 
     const googleSignUpMutation = useMutation({
-        mutationFn: signUpWithGoogleDummy,
+        mutationFn: signUpWithGoogle,
         onSuccess: (data) => {
             console.log("Google sign-up success:", data)
             toast.success("Signed up with Google successfully!")
