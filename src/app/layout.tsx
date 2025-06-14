@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
+import QueryClientProviderWrapper from "@/providers/QueryClientProviderWrapper";
 
 // Import fonts
 const geistSans = Geist({
@@ -64,8 +65,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
         style={{ fontFamily: "var(--font-roboto)" }}
       >
-        {children}
-        <Toaster richColors expand visibleToasts={10} />
+        <QueryClientProviderWrapper>
+          {children}
+          <Toaster richColors expand visibleToasts={10} />
+        </QueryClientProviderWrapper>
       </body>
     </html>
   );
