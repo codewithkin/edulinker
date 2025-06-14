@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 const signUpWithGoogleDummy = async () => {
     return new Promise((resolve) => {
@@ -25,6 +26,8 @@ function SignUpPage() {
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
 
+    const router = useRouter();
+
     const emailSignUpMutation = useMutation({
         mutationFn: async () => {
             const { data, error } = await authClient.signUp.email({
@@ -32,6 +35,11 @@ function SignUpPage() {
                 password,
                 name,
                 callbackURL: "/dashboard",
+                fetchOptions: {
+                    onSuccess: () => {
+                        router.push("/auth/signin");
+                    }
+                }
             })
 
             if (error) {
