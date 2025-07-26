@@ -10,6 +10,7 @@ import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
 
 const signUpWithGoogle = async () => {
     const { data, error } = await authClient.signIn.social({
@@ -48,8 +49,11 @@ function SignUpPage() {
             })
 
             if (error) {
-                toast.error(error.message)
-                throw new Error(error.message)
+                toast.error(error.message);
+
+                throw new Error(error.message);
+
+                return;
             }
 
             return data
@@ -132,7 +136,7 @@ function SignUpPage() {
                         <Input
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            placeholder="Create a password"
+                            placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
@@ -172,7 +176,13 @@ function SignUpPage() {
                         "Signing Up with Google..."
                     ) : (
                         <>
-                            Sign Up with Google
+                            <Image
+                                src="/icons/google.png"
+                                width={20}
+                                height={20}
+                                alt="Google icon"
+                            />
+                            Sign up with Google
                         </>
                     )}
                 </Button>

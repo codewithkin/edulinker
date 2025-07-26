@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
+import Image from "next/image"
 
 
 
@@ -117,8 +118,10 @@ function SignInPage() {
                         <Button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                             aria-label={showPassword ? "Hide password" : "Show password"}
+                            variant="ghost"
+                            size="icon"
                         >
                             {showPassword ? <EyeOffIcon size={20} /> : <EyeIcon size={20} />}
                         </Button>
@@ -143,16 +146,22 @@ function SignInPage() {
                 <p className="text-center text-sm text-gray-500 my-4">Or</p>
 
                 <Button
+                    className="border border-gray-600 text-gray-600 hover:bg-gray-200"
                     size="lg"
-                    className="bg-gray-300 text-gray-600 hover:bg-gray-500"
                     onClick={handleGoogleSignIn}
-                    variant="secondary"
+                    variant="outline"
                     disabled={googleSignInMutation.isPending}
                 >
                     {googleSignInMutation.isPending ? (
                         "Signing In with Google..."
                     ) : (
                         <>
+                            <Image
+                                src="/icons/google.png"
+                                width={20}
+                                height={20}
+                                alt="Google icon"
+                            />
                             Sign In with Google
                         </>
                     )}
